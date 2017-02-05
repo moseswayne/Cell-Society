@@ -7,6 +7,7 @@ import java.util.ResourceBundle;
 
 import Simulations.Simulation;
 import Utils.FileReader;
+import Utils.ParameterParser;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -26,23 +27,23 @@ public class UserInterface {
 	private BorderPane myScreen;
 	private Scene myScene;
 	private FileChooser fileBrowse;
-	private FileReader myDataFile;
+	private ParameterParser myDataFile;
 	private ResourceBundle myResources;
+	private boolean runSimulation;
 
 	public UserInterface(Stage mainStage, Map<String, Simulation> possibleSimulations, String resources) {
 		fileBrowse = new FileChooser();
 		allSimulations = possibleSimulations;
-		//myResources = ResourceBundle.getBundle(resources);
+		myResources = ResourceBundle.getBundle(resources);
 		myStage = mainStage;
 		myScreen = new BorderPane();
 		myScreen.setTop(setUpToolBar());
-		myScreen.setLeft(setUpControlStrip());
+		myScreen.setLeft(new ControlPanel(resources, ));
 	}
 	
 	private Node setUpToolBar() {
 		HBox toolBar = new HBox();
-		//Button openFileButton = new Button(myResources.getString("OpenFile"));
-		Button openFileButton = new Button("OpenFile");
+		Button openFileButton = new Button(myResources.getString("OpenFile"));
 		openFileButton.setOnAction(e -> openFileBrowser());
 		toolBar.getChildren().add(openFileButton);
 		Button newButton = new Button("Press Me");
@@ -63,13 +64,26 @@ public class UserInterface {
 	private void openFileBrowser() {
 		File readFile = fileBrowse.showOpenDialog(myStage);
 		if (readFile != null) {
-			//myDataFile = new FileReader(readFile);
+			//FileReader myFileReader = new FileReader(readFile);
+			//myDataFile = myFileReader.getParser();
 			//mySimulation = allSimulations.get(myDataFile.getSimulation());
 			//mySimulation.initiateSimulation(myDataFile);
-			//openFile(readFile);
+			//playSimulation();
 		} else {
 			return;
 		}
 	}
+	/*
+	private void playSimulation() {
+		while(!mySimulation.sameGrid()) {
+			if(!runSimulation) {
+				updateSimFrame();
+			}
+		}
+	}
 	
+	private void updateSimFrame() {
+		mySimulation.update();
+	}
+	*/
 }
