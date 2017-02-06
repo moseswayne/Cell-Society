@@ -5,7 +5,6 @@ import java.util.List;
 import Cells.Cell;
 import Cells_Wator.WatorCreature;
 import Cells_Wator.WatorEmpty;
-import UI.Grid;
 
 public class PredatorPrey extends Simulation {
 	public PredatorPrey(int size, String title) {

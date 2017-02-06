@@ -1,18 +1,18 @@
 package Simulations;
 
-import UI.Grid;
+import BackEndGrid.BackEndGrid;
 
 public abstract class Simulation {
 	//private final int screenSizeX = 400;
 	//private final int screenSizeY = 400;
 	
-	private Grid myGrid;
+	private BackEndGrid myGrid;
 	private int myGridSize;
 	private String myTitle;
 	
 	public Simulation(int size,String title){
 		myGridSize = size;
-		setMyGrid(new Grid(size));
+		setMyGrid(new BackEndGrid(size));
 		myTitle = title;
 	}
 	
@@ -42,11 +42,11 @@ public abstract class Simulation {
 		
 	}
 
-	public Grid getMyGrid() {
+	public BackEndGrid getMyGrid() {
 		return myGrid;
 	}
 
-	public void setMyGrid(Grid myGrid) {
+	public void setMyGrid(BackEndGrid myGrid) {
 		this.myGrid = myGrid;
 	}
 	

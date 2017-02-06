@@ -1,6 +1,5 @@
 package Simulations;
 
-import UI.Grid;
 
 public class Segregation extends Simulation {
 

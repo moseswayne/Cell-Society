@@ -5,7 +5,6 @@ import java.util.List;
 
 import Cells.Cell;
 import Cells.FireCell;
-import UI.Grid;
 
 public class Fire extends Simulation {
 

@@ -1,7 +1,6 @@
 package Simulations;
 
 import Cells.GameOfLifeCell;
-import UI.Grid;
 
 public class GameOfLife extends Simulation{
 	

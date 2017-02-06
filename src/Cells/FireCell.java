@@ -1,6 +1,6 @@
 package Cells;
 
-import java.awt.Color;
+import javafx.scene.paint.Color;
 
 public class FireCell extends Cell {
 	
