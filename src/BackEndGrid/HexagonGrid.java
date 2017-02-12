@@ -6,7 +6,6 @@ import java.util.List;
 import Cells.Cell;
 
 public class HexagonGrid extends BackEndGrid{
-
 	public HexagonGrid(int size) {
 		super(size);
 		// TODO Auto-generated constructor stub
@@ -33,5 +32,4 @@ public class HexagonGrid extends BackEndGrid{
 		
 		return null;
 	}
-
 }

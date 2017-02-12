@@ -26,7 +26,7 @@ public class BaseFrontEndGrid {
 	private final String HEXAGONLATTICE="hexagon";
 	private final String TRIANGLELATTICE="triangle";
 	private boolean drawCellBorders;
-	private double cellEdgeLength;
+	private double cellEdgeLength=25.0;
 
 	public BaseFrontEndGrid(BackEndGrid myGrid, double canvasWidth, double canvasHeight, 
 		Color defaultColor/*,HashMap<String, Color> cellColors*/) {
@@ -34,6 +34,7 @@ public class BaseFrontEndGrid {
 		this.myGrid=myGrid;
 		this.canvasHeight=canvasHeight;
 		this.canvasWidth=canvasWidth;
+		System.out.print(canvasWidth);
 		gridPicture=new Canvas(canvasWidth,canvasHeight);
 	}
 	
@@ -73,12 +74,12 @@ public class BaseFrontEndGrid {
 		gc.fillPolygon(xPoints, yPoints, 6);
 	}
 
-	private void drawTriangleCell(double x, double y, Cell cell, boolean reversed, GraphicsContext gc) {
+	private void drawTriangleCell(double x, double y, Cell cell, boolean edgeUpwards, GraphicsContext gc) {
 		gc.setFill(cell.getColor());
 		//gc.setFill(cellColors.get(cell.getState()));
 		double[] xPoints=new double[3];
 		double[] yPoints=new double[3];
-		if(reversed==false){
+		if(edgeUpwards==true){
 			xPoints[0]=x;
 			xPoints[1]=x+cellEdgeLength;
 			xPoints[2]=x+cellEdgeLength/2;
@@ -94,7 +95,13 @@ public class BaseFrontEndGrid {
 			yPoints[1]=y+Math.sqrt(3)*cellEdgeLength/2;
 			yPoints[2]=y+Math.sqrt(3)*cellEdgeLength/2;
 		}
-		gc.fillPolygon(xPoints, yPoints, 6);
+		for(int i=0;i<xPoints.length;i++){
+			xPoints[i]=xPoints[i]+1;
+			yPoints[i]=yPoints[i]+1;
+			System.out.println(xPoints[i]+","+yPoints[i]);
+		}
+		
+		gc.fillPolygon(xPoints, yPoints, 3);
 	}
 	
 	public void displayCellBorders(boolean choice){
@@ -142,7 +149,9 @@ public class BaseFrontEndGrid {
 		for(int i=0;i<myGrid.getRows();i++){
 			for(int j=0;j<myGrid.getColumns();j++){
 				Cell cell=myGrid.getCell(i, j);
-				
+				boolean edgeFacesUpwards=false;//don't think this line is necessary but just in case
+				if(i+j==0) edgeFacesUpwards=true;
+				drawCell(j*0.5*cellEdgeLength,i*cellEdgeLength*Math.sqrt(3)/2,cell,edgeFacesUpwards,gc);
 			}
 		}
 	}	

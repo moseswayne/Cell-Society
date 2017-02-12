@@ -96,28 +96,25 @@ public class BackEndGrid {
 	//these neighbour functions will be implemented by subclasses.
 	public List<Cell> getFourNeighbors(int row, int col) {
 		List<Cell> neighborList = new ArrayList<Cell>();
-		neighborList.add(tryGetCell(row-1,col));
-		neighborList.add(tryGetCell(row+1,col));
-		neighborList.add(tryGetCell(row,col-1));
-		neighborList.add(tryGetCell(row,col+1));
-		
+		if(row-1>=0)neighborList.add(tryGetCell(row-1,col));
+		if(row+1<maxRows)neighborList.add(tryGetCell(row+1,col));
+		if(col-1>=0)neighborList.add(tryGetCell(row,col-1));
+		if(col+1<maxColumns)neighborList.add(tryGetCell(row,col+1));
+		neighborList.remove(null);
 		return neighborList;
 	}
 	
 	public List<Cell> getEightNeighbors(int row, int col) {
 		List<Cell> neighborList = new ArrayList<Cell>();
 		neighborList.addAll(getFourNeighbors(row, col));
-		neighborList.add(tryGetCell(row-1,col-1));
-		neighborList.add(tryGetCell(row-1,col+1));
-		neighborList.add(tryGetCell(row+1,col-1));
-		neighborList.add(tryGetCell(row+1,col+1));
-		
+		if(row-1>=0&&col-1>=0) neighborList.add(getCell(row-1,col-1));
+		if(row-1>=0&&col+1<maxColumns) neighborList.add(getCell(row-1,col+1));
+		if(row+1<maxRows&&col-1>=0) neighborList.add(getCell(row+1,col-1));
+		if(row+1<maxRows&&col+1<maxColumns) neighborList.add(getCell(row+1,col+1));
 		return neighborList;
 	}
 	//to be overriden depending on each simulation
 	public List<Cell> getNeighbors(int row, int column){
 		return null;
 	}
-	
-	
 }
