@@ -1,16 +1,21 @@
 package Simulations;
 
+import java.util.List;
+import java.util.Map;
+
+import Cells.Cell;
 import Cells.GameOfLifeCell;
 
 public class GameOfLife extends Simulation{
 	
-	private static final double probDead = 0.2;
-	
 	private static final String ALIVE = "alive";
 	private static final String DEAD = "dead";
 
-	public GameOfLife(int size,String title) {
-		super(size,title);
+	private int numDead; 
+	
+	public GameOfLife(Map<String,String> parameters,Map<int[],String> cells) {
+		super(parameters,cells);
+		numDead = 0;
 	}
 	
 	@Override
@@ -19,20 +24,29 @@ public class GameOfLife extends Simulation{
 			for (int j = 0; j<getGridSize();j++) {
 				applyRulesToCell(i,j);
 			}
-			}
+		}
 	}
 	
 	private void applyRulesToCell(int row, int col) {
-		GameOfLifeCell cell = (GameOfLifeCell) getMyGrid().getCell(row, col);
-		int numNeighbors = getMyGrid().getEightNeighbors(row, col).size();
+		Cell cell = getMyGrid().tryGetCell(row, col);
+		List<Cell> neighbors = getMyGrid().getEightNeighbors(row, col);
+		int numAliveNeighbors=0;
+		for (Cell gameCell : neighbors) {
+			if (gameCell.getState().equals(ALIVE)) {
+				numAliveNeighbors++;
+			}
+		}
 		if (cell.getState().equals(ALIVE)) {
-			if (numNeighbors<2||numNeighbors>3) {
+			if (numAliveNeighbors<2||numAliveNeighbors>3) {
+
 				cell.updateState(DEAD);
+				numDead++;
 				return;
 			}
 		} else if (cell.getState().equals(DEAD)) {
-			if (numNeighbors==3) {
+			if (numAliveNeighbors==3) {
 				cell.updateState(ALIVE);
+				numDead--;
 				return;
 			}
 		}
@@ -40,23 +54,21 @@ public class GameOfLife extends Simulation{
 
 	@Override
 	public void initiateSimulation() {
-		for (int i=0; i<getGridSize();i++) {
-			for (int j = 0; j<getGridSize();j++) {
-				double rand = Math.random();
-				if (rand<probDead) {
-					getMyGrid().setCell(i, j, new GameOfLifeCell(DEAD));
-				} else {
-					getMyGrid().setCell(i, j, new GameOfLifeCell(ALIVE));
-				}
-			}
+		for (int[] coordinates : getMyCells().keySet()) {
+			String cellType = getMyCells().get(coordinates);
+			if (cellType.equals(DEAD)) numDead++;
+			GameOfLifeCell cell = new GameOfLifeCell(cellType);
+			getMyGrid().setCell(coordinates[0],coordinates[1],cell);
 		}
 	}
 
-
-	@Override
-	public void calculateStatus() {
-		// TODO Auto-generated method stub
-		
+	public int getNumDead() {
+		return numDead;
 	}
+	
+	public int getNumAlive() {
+		return getGridSize()*getGridSize()-numDead;
+	}
+
 
 }

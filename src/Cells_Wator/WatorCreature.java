@@ -16,14 +16,6 @@ public abstract class WatorCreature extends Cell{
 		timeSinceBirth=0;
 	}
 	
-	public void setGestationPeriod(int period){
-		gestationPeriod=period;
-	}
-	
-	public int getGestationPeriod(){
-		return gestationPeriod;
-	}
-	
 	public int getTimeSinceBirth(){
 		return timeSinceBirth;
 	}
@@ -32,9 +24,10 @@ public abstract class WatorCreature extends Cell{
 		timeSinceBirth++;
 	}
 	
-	public void moveTo(int x, int y){
-		setRow(y);
-		setCol(x);
+	@Override
+	public Cell getEmptyCell(){
+		return new WatorEmpty();
 	}
-
+	
+	public abstract WatorCreature makeChild();
 }

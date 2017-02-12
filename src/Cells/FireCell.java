@@ -9,8 +9,7 @@ public class FireCell extends Cell {
 	private static final String BURNING = "burning";
 	
 	public FireCell(String state) {
-		super();
-		updateState(state);
+		super(state);
 	}
 	
 	@Override
@@ -26,6 +25,12 @@ public class FireCell extends Cell {
 			setColor(Color.RED);
 		}
 		
+	}
+
+	@Override
+	public Cell getEmptyCell() {
+		// TODO Auto-generated method stub
+		return new FireCell("empty");
 	}
 
 }

@@ -1,12 +1,30 @@
 package Cells_Wator;
 
+import javafx.scene.paint.Color;
+
 public class WatorPredator extends WatorCreature{
-	private final int PREDATOR_GESTATION_PERIOD=10;
-	private final int TIME_TO_STARVE=6;
+	private final Color PREDATOR_COLOR=Color.RED;
 	private int timeSinceAte=0;
 	
 	public WatorPredator(){
-		setGestationPeriod(PREDATOR_GESTATION_PERIOD);
+		setColor(PREDATOR_COLOR);
+		setState("WatorPredator");
+	}
+	
+	public WatorPredator makeChild(){
+		return new WatorPredator();
+	}
+	
+	public void incrementTimeSinceAte(){
+		timeSinceAte++;
+	}
+	
+	public void resetTimeSinceAte(){
+		timeSinceAte=0;
+	}
+	
+	public int getTimeSinceAte(){
+		return timeSinceAte;
 	}
 
 }

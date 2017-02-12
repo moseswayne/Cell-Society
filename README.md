@@ -2,5 +2,5 @@
 
 CompSci 308 Cell Society Project
 
-Daniel's typing words!!
+To run the program, run Main.java in CellSociety.
 

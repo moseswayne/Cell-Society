@@ -7,8 +7,7 @@ public class GameOfLifeCell extends Cell {
 	private static final String DEAD = "dead";
 	
 	public GameOfLifeCell(String state) {
-		super();
-		updateState(state);
+		super(state);
 	}
 	
 	@Override
@@ -19,6 +18,12 @@ public class GameOfLifeCell extends Cell {
 		} else if (newState.equals(DEAD)) {
 			setColor(Color.GREEN);
 		}
+	}
+
+	@Override
+	public Cell getEmptyCell() {
+		// TODO Auto-generated method stub
+		return new GameOfLifeCell("dead");
 	}
 
 }

@@ -1,6 +1,13 @@
 package Simulations;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import BackEndGrid.BackEndGrid;
+import Cells.Cell;
+import Utils.ParameterParser;
 
 public abstract class Simulation {
 	//private final int screenSizeX = 400;
@@ -9,18 +16,47 @@ public abstract class Simulation {
 	private BackEndGrid myGrid;
 	private int myGridSize;
 	private String myTitle;
+	private Map<String,String> myParameters;
+	private Map<int[],String> myCells;
 	
-	public Simulation(int size,String title){
-		myGridSize = size;
-		setMyGrid(new BackEndGrid(size));
-		myTitle = title;
+	public Simulation(Map<String,String> parameters, Map<int[],String> cells){
+		myParameters = parameters;
+		myCells = cells;
+		myGridSize = Integer.parseInt(myParameters.get("size"));
+		setMyGrid(new BackEndGrid(myGridSize));
+		myTitle = myParameters.get("title");
 	}
 	
 	public abstract void update();
 	
 	public abstract void initiateSimulation();
 	
-	public abstract void calculateStatus();
+	public List<Cell> getStateSpecificSubset(List<Cell> cells, String state){
+		List<Cell> sublist=new ArrayList<Cell>();
+		for(Cell cell:cells){
+			if(cell.getState().equals(state)){
+				sublist.add(cell);
+			}
+		}
+		return sublist;
+	}
+	
+	public List<Cell> getClassSpecificSubcells(List<Cell> list,String className){
+		List<Cell> sublist=new ArrayList<>();
+		Class<?> cls;
+		try {
+			cls = Class.forName(className);
+			for(Cell item:list){
+				if(cls.isInstance(item)){	
+					sublist.add(item);
+				}
+			}
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return sublist;
+	}
 	
 	public void play() {
 		
@@ -34,9 +70,6 @@ public abstract class Simulation {
 		
 	}
 	
-	public void switchCell(){
-		
-	}
 	
 	public void moveToAndReplaceCell(){
 		
@@ -57,5 +90,21 @@ public abstract class Simulation {
 	public String getTitle() {
 		return myTitle;
 	}
+	
+	public Map<String,String> getMyParameters() {
+		return myParameters;
+	}
+	
+	public Map<int[],String> getMyCells() {
+		return myCells;
+	}
+	
+	public void updateCellInMap(Cell cell) {
+		int[] coordinates = new int[2];
+		coordinates[0] = cell.getRow();
+		coordinates[1] = cell.getCol();
+		myCells.put(coordinates, cell.getState());
+	}
+
 	
 }
